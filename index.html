@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy Birthday Sopna Thangachi</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/vanta.birds.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.5/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- THREE.js (required) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+
+<!-- VANTA.js effect (BIRDS in this case) -->
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.5/sweetalert2.min.css">
+    
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Page 1: Welcome Page */
+        #page1 {
+            background: linear-gradient(135deg, #ffc0cb, #ffb6c1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            color: #fff;
+            text-shadow: 0 0 30px #ff69b4, 0 0 60px #ff69b4;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px #ff69b4, 0 0 60px #ff69b4; }
+            to { text-shadow: 0 0 50px #ff69b4, 0 0 100px #ff69b4; }
+        }
+
+        .audio-controls {
+            margin-top: 30px;
+        }
+
+        .audio-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            animation: confetti 3s linear infinite;
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Page 2: Photo Gallery */
+        #page2 {
+            background: linear-gradient(135deg, #ffeef5, #ffc0cb);
+            padding: 50px 0;
+        }
+
+        .page-title {
+            font-size: 2.5em;
+            color: #ff1493;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px #ff69b4;
+        }
+
+        .photo-gallery {
+           display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+        }
+
+        .photo-item {
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
+            scroll-snap-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .photo-placeholder {
+  width: 100%;
+  height: 250px; /* or whatever fixed height you prefer */
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: #ffc2d1; /* fallback color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This is key */
+  border-radius: 15px;
+}
+
+
+        .photo-caption {
+            color: #d63384;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        /* Page 3: 5 Things I Love About You */
+        #page3 {
+            background: linear-gradient(135deg, #ffc0cb, #ffeef5);
+            padding: 50px 0;
+        }
+
+        .love-points {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .love-point {
+            background: rgba(255, 255, 255, 0.9);
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+            transform: translateX(-100px);
+            opacity: 0;
+            border-left: 5px solid #ff69b4;
+        }
+
+        .love-point.animate {
+            transform: translateX(0);
+            opacity: 1;
+            transition: all 0.6s ease;
+        }
+
+        .love-point h3 {
+            color: #ff1493;
+            margin-bottom: 10px;
+        }
+
+        .love-point p {
+            color: #d63384;
+            line-height: 1.6;
+        }
+
+        /* Page 4: Gift Box */
+        #page4 {
+            background: linear-gradient(135deg, #ffeef5, #ffc0cb);
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .gift-box::before {
+            content: '🎁';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+        }
+
+        /* Page 5: Ending Note */
+        #page5 {
+            background: linear-gradient(135deg, #ffc0cb, #ffb6c1);
+            text-align: center;
+        }
+
+       .ending-text {
+    font-size: 2em;
+    color: #fff;
+    text-shadow: 0 0 20px #ff69b4;
+    margin-bottom: 40px;
+    max-width: 600px;
+    opacity: 0;
+    animation: glowFadeIn 3s ease-in-out forwards;
+}
+
+@keyframes glowFadeIn {
+    0% {
+        opacity: 0;
+        text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff1493;
+        transform: translateY(0);
+    }
+}
+
+
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: floatHeart 6s infinite linear;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+        }
+
+        /* Fireworks Animation */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff69b4;
+            border-radius: 50%;
+            animation: fireworkExplode 1s ease-out;
+        }
+
+        @keyframes fireworkExplode {
+            0% { transform: scale(0); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: scale(20); opacity: 0; }
+        }
+
+        /* Heart Animation */
+        .heart-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: #ff69b4;
+            animation: heartBeat 1s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
+            }
+            
+            .page-title {
+                font-size: 2em;
+            }
+            
+            .photo-item {
+                min-width: 250px;
+            }
+            
+            .ending-text {
+                font-size: 1.5em;
+            }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .scroll-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 105, 180, 0.5);
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background: #ff69b4;
+            transform: scale(1.2);
+        }
+        @keyframes glow {
+    0% { text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4; }
+    50% { text-shadow: 0 0 20px #ff1493, 0 0 30px #ff69b4; }
+    100% { text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4; }
+}
+
+.glow-name {
+    color: #ff1493;
+    font-weight: bold;
+    animation: glow 2s infinite;
+    font-size: 24px;
+}
+
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid #ff1493;
+    white-space: nowrap;
+    letter-spacing: .1em;
+    animation:
+        typing 3s steps(30, end),
+        blink-caret 0.75s step-end infinite;
+    display: inline-block;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #ff1493; }
+}
+
+    </style>
+</head>
+<body>
+    <!-- Audio for background music -->
+    <audio id="backgroundMusic" loop>
+        <!-- Note: Replace with actual audio file -->
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10RNHZ" type="audio/wav">
+    </audio>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-dot active" onclick="scrollToPage(1)"></div>
+        <div class="scroll-dot" onclick="scrollToPage(2)"></div>
+        <div class="scroll-dot" onclick="scrollToPage(3)"></div>
+        <div class="scroll-dot" onclick="scrollToPage(4)"></div>
+        <div class="scroll-dot" onclick="scrollToPage(5)"></div>
+    </div>
+
+    <!-- Page 1: Welcome Page -->
+    <div id="page1" class="page">
+        <div class="welcome-content">
+            <h1 class="main-title">
+                <span id="typed-text"></span>
+            </h1>
+            <div class="audio-controls">
+                
+                <!-- <button class="audio-btn" onclick="toggleMusic()">🎵 Play Music</button> -->
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Photo Timeline Gallery -->
+   <div id="page2" class="page">
+  <h2 class="page-title">Beautiful Memories Together</h2>
+  <div class="photo-gallery">
+    
+    <div class="photo-item">
+      <div class="photo-placeholder">
+               
+        <img src="https://github.com/jamsed3/Birthday/raw/main/year1.jpg" alt="Photo 1" />
+      </div>
+      <p class="photo-caption">Our first college day photo- where it all began</p>
+    </div>
+
+    <div class="photo-item">
+      <div class="photo-placeholder">
+        <img src="https://github.com/jamsed3/Birthday/raw/main/year2.jpg" alt="Photo 2" />
+      </div>
+      <p class="photo-caption">Those silly fights that made us closer</p>
+    </div>
+
+    <div class="photo-item">
+      <div class="photo-placeholder">
+        <img src="https://github.com/jamsed3/Birthday/raw/main/year5.jpg" alt="Photo 3" />
+      </div>
+      <p class="photo-caption">Your caring nature always shines through</p>
+    </div>
+
+    <div class="photo-item">
+      <div class="photo-placeholder">
+        <img src="https://github.com/jamsed3/Birthday/raw/main/year4.jpg" alt="Photo 4" />
+      </div>
+      <p class="photo-caption">Even in silence, your support speaks volumes, sister.💖</p>
+    </div>
+
+    <div class="photo-item">
+      <div class="photo-placeholder">
+        <img src="https://github.com/jamsed3/Birthday/raw/main/year6.jpg" alt="Photo 5" />
+      </div>
+      <p class="photo-caption">More than a sister ,a gift to my heart.🎁</p>
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- Page 3: 5 Things I Love About You -->
+    <div id="page3" class="page">
+        <h2 class="page-title">5 Things I Love About You</h2>
+        <div class="love-points">
+            <div class="love-point">
+                <h3>1. Your Caring Nature</h3>
+                <p>Thanks for caring from first year of my college till now. You're the best sister.</p>
+            </div>
+            <div class="love-point">
+                <h3>2. Our Cute Fights</h3>
+                <p>We made a lot of fights , that's a cute memory!</p>
+            </div>
+            <div class="love-point">
+                <h3>3. Your Good Heart</h3>
+                <p>Your good-hearted nature , keep this character, you're really a gem.</p>
+            </div>
+            <div class="love-point">
+                <h3>4. Your Silent Support</h3>
+                <p>You always support me silently. I notice that and it means a lot.💖</p>
+            </div>
+            <div class="love-point">
+                <h3>5. My Pride in You</h3>
+                <p>I'm always proud to be your brother. Stay the same forever!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 4: Gift Box Surprise -->
+    <div id="page4" class="page">
+        <h2 class="page-title">Special Gift for You</h2>
+        <div class="gift-box" onclick="openGiftBox()"></div>
+        <p style="margin-top: 20px; color: #ff1493; font-size: 18px;">Click the gift box to reveal your surprise!</p>
+        <audio id="birthdayAudio" src="https://github.com/jamsed3/Birthday/raw/main/bday.mp3"></audio>
+        <audio id="voiceAudio" src="your-voice.mp3"></audio>
+
+    </div>
+
+    <!-- Page 5: Ending Note -->
+    <div id="page5" class="page">
+        <div class="floating-hearts"></div>
+        <p class="ending-text">No matter how many birthdays come and go, you’ll
+always be my best sister and a close friend too.</p>
+        <button class="btn" onclick="scrollToPage(1)">Replay From Start 💫</button>
+        <button class="btn" onclick="downloadPDF()">Download as PDF 📄</button>
+    </div>
+
+    <script>
+        let vantaEffect;
+        let musicPlaying = false;
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        // Initialize Vanta.js birds effect
+        function initVanta() {
+            if (typeof VANTA !== 'undefined') {
+                vantaEffect = VANTA.BIRDS({
+                    el: "#page1",
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    scale: 1.00,
+                    scaleMobile: 1.00,
+                    backgroundColor: 0xffc0cb,
+                    color1: 0xff69b4,
+                    color2: 0xff1493,
+                    birdSize: 1.50,
+                    wingSpan: 20.00,
+                    speedLimit: 4.00,
+                    separation: 20.00,
+                    alignment: 20.00,
+                    cohesion: 20.00,
+                    quantity: 3.00
+                });
+            }
+        }
+
+        // Initialize Typed.js
+        function initTyped() {
+            if (typeof Typed !== 'undefined') {
+                new Typed('#typed-text', {
+                    strings: ['Happy Birthday Sopna Thangachi💖'],
+                    typeSpeed: 100,
+                    backSpeed: 50,
+                    loop: false,
+                    showCursor: false
+                });
+            }
+        }
+
+        // Create confetti animation
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    confetti.style.backgroundColor = ['#ff69b4', '#ff1493', '#ffc0cb', '#ffb6c1'][Math.floor(Math.random() * 4)];
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+   
+
+        // Scroll to specific page
+        function scrollToPage(pageNumber) {
+            document.getElementById(`page${pageNumber}`).scrollIntoView({ behavior: 'smooth' });
+            
+            // Update scroll indicator
+            document.querySelectorAll('.scroll-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === pageNumber - 1);
+            });
+        }
+
+        // Animate love points on scroll
+        function animateLovePoints() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const points = entry.target.querySelectorAll('.love-point');
+                        points.forEach((point, index) => {
+                            setTimeout(() => {
+                                point.classList.add('animate');
+                            }, index * 200);
+                        });
+                    }
+                });
+            });
+            
+            observer.observe(document.getElementById('page3'));
+        }
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const heartsContainer = document.querySelector('.floating-hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 6000);
+            }, 1000);
+        }
+
+        // Open gift box with SweetAlert2
+        function openGiftBox() {
+    createFireworks();
+
+    // Play birthday audio
+    const audio = document.getElementById("birthdayAudio");
+    if (audio) audio.play();
+
+    Swal.fire({
+        title: '<span class="typewriter glow-name">🎁 Happy Birthday Sopna Thangachi🎁</span>',
+        html: `
+            <div style="text-align: center; color: #ff1493;">
+                <div class="heart-animation">💖</div>
+                <p style="margin-top: 120px; font-size: 18px; line-height: 1.6;">
+                    Happy Birthday! On this special day, I just want to tell you how much you mean to me.<br><br>
+                    You’re not just my sister   you’ve always been a big part of my life.<br><br>
+                    1. Thank you for caring for me since my first year of college. Your support means a lot to me.<br><br>
+                    2. We’ve had so many small fights (a lot actually 😄), but now when I think about it, they feel like sweet memories.<br><br>
+                    3. You have such a kind heart. Don’t ever change. You really make life better for everyone around you.<br><br>
+                    4. You always support me quietly, from the background, and I see that. I’ve always noticed it. And I’m so thankful.<br><br>
+                    5. I’m proud to be your brother. And more than that, I’m lucky to have you.<br><br>
+                    No matter how many birthdays come and go, you’ll always be my best sister and a close friend too.<br><br>
+                    With all my love,<br>
+                    Your Brother 💕<br>
+                    Nithil 
+                    
+                </p>
+            </div>
+        `,
+        width: 600,
+        padding: '2em',
+        background: '#ffeef5',
+        color: '#ff1493',
+        confirmButtonText: 'Thank You! 💖',
+        confirmButtonColor: '#ff69b4',
+        showClass: {
+            popup: 'animate__animated animate__zoomIn'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__zoomOut'
+        }
+    });
+}
+
+
+
+        // Create fireworks animation
+        function createFireworks() {
+            const fireworksContainer = document.createElement('div');
+            fireworksContainer.className = 'fireworks';
+            document.body.appendChild(fireworksContainer);
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.backgroundColor = ['#ff69b4', '#ff1493', '#ffc0cb', '#ffb6c1', '#ff69b4'][Math.floor(Math.random() * 5)];
+                    fireworksContainer.appendChild(firework);
+                    
+                    setTimeout(() => firework.remove(), 1000);
+                }, i * 100);
+            }
+            
+            setTimeout(() => fireworksContainer.remove(), 3000);
+        }
+
+        // Download PDF function
+        function downloadPDF() {
+             
+        const fileUrl = "https://github.com/jamsed3/Birthday/raw/main/Sopna_Birthday.pdf";
+        
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = "Sopna_Birthday.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+        
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            initVanta();
+            initTyped();
+            createConfetti();
+            animateLovePoints();
+            createFloatingHearts();
+            
+            // Add scroll event listener for navigation
+            window.addEventListener('scroll', () => {
+                const pages = document.querySelectorAll('.page');
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                
+                pages.forEach((page, index) => {
+                    const pageTop = page.offsetTop;
+                    const pageBottom = pageTop + page.offsetHeight;
+                    
+                    if (scrollPosition >= pageTop && scrollPosition <= pageBottom) {
+                        document.querySelectorAll('.scroll-dot').forEach((dot, dotIndex) => {
+                            dot.classList.toggle('active', dotIndex === index);
+                        });
+                    }
+                });
+            });
+        });
+        VANTA.BIRDS({
+    el: "body",
+    backgroundColor: 0xffc0cb,  // pastel pink
+    color1: 0xff69b4,           // hot pink
+    color2: 0xffb6c1,           // light pink
+    wingSpan: 20,
+    speedLimit: 2.00,
+    separation: 50,
+    alignment: 30,
+    cohesion: 30,
+    quantity: 3
+  });
+    </script>
+</body>
+</html>
